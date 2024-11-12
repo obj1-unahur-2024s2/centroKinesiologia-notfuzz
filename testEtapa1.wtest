@@ -1,0 +1,85 @@
+import aparatos.*
+import pacientes.*
+
+const leonardo = new Paciente(edad =40,nivelDeDolor= 10,fortalezaMuscular = 20,rutina = [bici,minitramp,bici,magneto])
+const milena = new Paciente(edad = 3,fortalezaMuscular = 50, nivelDeDolor = 30,rutina = [magneto,bici])
+const magneto = new Magneto(color = "blanco")
+const bici = new Bicicleta(color = "blanco")
+const minitramp = new Minitramp(color = "blanco")
+describe "centro kinesiologia etapa 1" {
+  method initialize() {
+  }
+  test "Leonardo puede usar los tres aparatos creados, mientras que Milena puede usar sólo el magneto." {
+    assert.that(leonardo.puedeUsar(magneto))
+    assert.that(leonardo.puedeUsar(bici))
+    assert.that(leonardo.puedeUsar(minitramp))
+    assert.that(milena.puedeUsar(magneto))  
+    assert.notThat(milena.puedeUsar(bici))
+    assert.notThat(milena.puedeUsar(minitramp))
+  }
+  test "Después de usar el magneto una vez, el nivel de dolor de Leonardo baja a 9." {
+    leonardo.usarAparato(magneto)
+    assert.equals(9, leonardo.nivelDeDolor())
+  }
+  test "Después de usar el magneto una vez, el nivel de dolor de Milena baja a 27." {
+    milena.usarAparato(magneto)
+    assert.equals(27, milena.nivelDeDolor())
+  }
+  test "Después de usar la bicicleta una vez, el nivel de dolor de Leonardo baja a 6, y la fortaleza sube a 23." {
+    leonardo.usarAparato(bici)
+    assert.equals(6, leonardo.nivelDeDolor())
+    assert.equals(23, leonardo.fortalezaMuscular())
+  }
+  test "Después de usar el minitramp una vez, la fortaleza de Leonardo sube a 24." {
+    leonardo.usarAparato(minitramp)
+    assert.equals(24, leonardo.fortalezaMuscular())
+  }
+  ////////////////////// rutinas test2
+
+  test "Leonardo puede hacer la rutina que tiene asignada. Después de hacerla una vez, su nivel de dolor baja a 1.8, y su fortaleza sube a 30." {
+    assert.that(leonardo.puedeHacerRutina())
+    leonardo.hacerRutina()
+    assert.equals(1.8, leonardo.nivelDeDolor())
+    assert.equals(30, leonardo.fortalezaMuscular())
+  }
+  test "Milena no puede hacer la rutina que tiene asignada." {
+    assert.notThat(milena.puedeHacerRutina())
+  }
+
+  ///////////////// test 3
+const biciRoja = new Bicicleta(color = "rojo")
+const biciBlanca = new Bicicleta(color = "blanco")
+const magnetoVerde = new Magneto(color = "verde")
+const minitrampBlanca = new Minitramp(color = "blanco")
+
+const nicolas = new PacienteResistente (edad =40,nivelDeDolor= 10,fortalezaMuscular = 20,rutina = [bici,minitramp,bici,magneto])
+const victoria = new PacienteCaprichoso(edad =30,nivelDeDolor= 10,fortalezaMuscular = 40,rutina = [bici,minitramp,bici,magneto])
+const julian = new PacienteCaprichoso(edad =20,nivelDeDolor= 54,fortalezaMuscular = 50,rutina = [biciRoja,magnetoVerde,biciBlanca])
+const zoe = new PacienteRapidaRecuperacion(edad =50,nivelDeDolor= 14,fortalezaMuscular = 40,rutina = [bici,minitramp,bici,magneto])
+
+test "Nicolás puede hacer la rutina que tiene asignada. Después de hacerla una vez, su nivel de dolor baja a 1.8, y su fortaleza sube a 34." {
+  assert.that(nicolas.puedeHacerRutina())
+  nicolas.hacerRutina()
+  assert.equals(1.8, nicolas.nivelDeDolor())
+  assert.equals(34, nicolas.fortalezaMuscular())
+}
+test "Victoria no puede hacer la rutina que tiene asignada." {
+  assert.notThat(victoria.puedeHacerRutina())
+  
+}
+test "Julián puede hacer la rutina que tiene asignada. Después de hacerla una vez, su nivel de dolor baja a 29.3, y su fortaleza sube a 62." {
+  assert.that(julian.puedeHacerRutina())
+  julian.hacerRutina()
+  assert.equals(29.3, julian.nivelDeDolor())
+  assert.equals(62, julian.fortalezaMuscular())
+}
+test "Zoe puede hacer la rutina que tiene asignada. Después de asignar a 2 el valor de decremento de dolor para pacientes de rápida recuperación,
+       y de que Zoe haga su rutinauna vez, su nivel de dolor baja a 3.4, y su fortaleza sube a 51." {
+  assert.that(zoe.puedeHacerRutina())
+  cantConfigurable.valor(2)
+  zoe.hacerRutina()
+  assert.equals(3.4, zoe.nivelDeDolor())
+  assert.equals(51, zoe.fortalezaMuscular())
+
+}
+}
